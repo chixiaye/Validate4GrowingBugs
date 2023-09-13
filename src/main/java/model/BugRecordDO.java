@@ -1,11 +1,17 @@
 package model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author chixiaye
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class BugRecordDO {
     Integer id;
     String projectId;
