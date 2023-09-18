@@ -26,4 +26,8 @@ public class BugRecordDO {
      * 1:是 0:否
      */
     Integer defects4jBugFlag;
+    /**
+     * 扩展字段-是否删除 1:是 0:否
+     */
+    Integer ext;
 }

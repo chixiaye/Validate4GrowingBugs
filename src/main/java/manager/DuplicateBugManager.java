@@ -19,6 +19,8 @@ import java.util.List;
 @Slf4j
 public class DuplicateBugManager {
 
+    public static final String DEFECTS_4J_PATH = Config.getDefects4jPath();
+
     public static void findDuplicateBug() {
         List<BugRecordDO> bugRecordDOS = AllBugsIoUtil.readAllBugs();
         for (int i = 0; i < bugRecordDOS.size(); i++) {
@@ -36,7 +38,7 @@ public class DuplicateBugManager {
 
     public static boolean isDuplicateBug(BugRecordDO bugRecordDO1, BugRecordDO bugRecordDO2) {
         String patch1 =
-                Config.getDefects4jPath() + "framework/projects/" + bugRecordDO1.getProjectId() + "/patches/" + bugRecordDO1.getBugId() + ".src.patch";
+                DEFECTS_4J_PATH + "framework/projects/" + bugRecordDO1.getProjectId() + "/patches/" + bugRecordDO1.getBugId() + ".src.patch";
         String patch2 =
                 Config.getDefects4jPath() + "framework/projects/" + bugRecordDO2.getProjectId() + "/patches/" + bugRecordDO2.getBugId() + ".src.patch";
         boolean patchFlag = isDuplicateFile(patch1, patch2);

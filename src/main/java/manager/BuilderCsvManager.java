@@ -93,7 +93,6 @@ public class BuilderCsvManager {
                 numberList.add(Integer.parseInt(range));
             }
         }
-
         return numberList;
     }
 
