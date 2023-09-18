@@ -3,13 +3,13 @@ import os
 import pandas as pd
 import time
 path1 = "/framework/projects/"
-gbr_path = "/root/"+"GrowingBugRepository"+path1
-d4j_path = "/root/"+"defects4j"+path1
-gbr_bugs = "/root/Repair/test.csv"
+gbr_path = "/Users/chixiaye/bysj/code/"+"GrowingBugRepository"+path1
+d4j_path = "/Users/chixiaye/bysj/code/"+"defects4j"+path1
+gbr_bugs = "./test.csv"
 
 
 def write_to_our_csv(our,their,equal):
-    our['defects4jBugFlag'] = equal
+    our['defects4jBugFlag'] =  equal
     our['buggyVersion'] = their['revision.id.buggy']
     our['fixedVersion'] = their['revision.id.fixed']
     our['reportId'] = their['report.id']
@@ -24,7 +24,10 @@ for index, row in bugs_info.iterrows():
     row = bugs_info.loc[index]    
     p = row['projectId']
     id = row['bugId']
-    d4j_active_path = d4j_path+p+'/active-bugs.csv'
+    d4j_p = p
+    if p == 'Math_4j':
+        d4j_p = 'Math'
+    d4j_active_path = d4j_path+d4j_p+'/active-bugs.csv'
     gbr_active_path = gbr_path+p+"/active-bugs.csv"
     #if not (p == "Leshan_core" and id == 8):
     #    continue
@@ -43,7 +46,7 @@ for index, row in bugs_info.iterrows():
         for i,gbr_row in gbr_active_bugs.iterrows():
             if gbr_row['bug.id'] == id:
                 found = True
-                bugs_info.loc[index,['defects4jBugFlag']] = 0
+                bugs_info.loc[index,['defects4jBugFlag']] = str(0)
                 bugs_info.loc[index,['buggyVersion']] = gbr_row['revision.id.buggy']
                 bugs_info.loc[index,['fixedVersion']] = gbr_row['revision.id.fixed']
                 bugs_info.loc[index,['reportId']] = gbr_row['report.id']
@@ -60,7 +63,7 @@ for index, row in bugs_info.iterrows():
     if id not in list(d4j_ids):
         for i,gbr_row in gbr_active_bugs.iterrows():
             if gbr_row['bug.id'] == id:
-                bugs_info.loc[index,['defects4jBugFlag']] = 0
+                bugs_info.loc[index,['defects4jBugFlag']] = str(0)
                 bugs_info.loc[index,['buggyVersion']] = gbr_row['revision.id.buggy']
                 bugs_info.loc[index,['fixedVersion']] = gbr_row['revision.id.fixed']
                 bugs_info.loc[index,['reportId']] = gbr_row['report.id']
@@ -80,7 +83,7 @@ for index, row in bugs_info.iterrows():
                         equal = True
         #found, and equal
         if equal:
-            bugs_info.loc[index,['defects4jBugFlag']] = 1
+            bugs_info.loc[index,['defects4jBugFlag']] = str(1)
             bugs_info.loc[index,['buggyVersion']] = gbr_row['revision.id.buggy']
             bugs_info.loc[index,['fixedVersion']] = gbr_row['revision.id.fixed']
             bugs_info.loc[index,['reportId']] = gbr_row['report.id']
@@ -88,7 +91,7 @@ for index, row in bugs_info.iterrows():
             break
         #found, but not equal
         elif matched:
-            bugs_info.loc[index,['defects4jBugFlag']] = 0
+            bugs_info.loc[index,['defects4jBugFlag']] = str(0)
             bugs_info.loc[index,['buggyVersion']] = gbr_row['revision.id.buggy']
             bugs_info.loc[index,['fixedVersion']] = gbr_row['revision.id.fixed']
             bugs_info.loc[index,['reportId']] = gbr_row['report.id']
@@ -96,5 +99,6 @@ for index, row in bugs_info.iterrows():
             break
             #else: not found ,continue loop
 timestamp = int(time.time())
-bugs_info.to_csv('./data/all_bugs.csv',mode='w')
-open('lack.txt','w').write(lack)
+# 不写入索引
+bugs_info.to_csv('./data/all_bugs.csv',mode='w',index=False)
+open('./data/lack.txt','w').write(lack)
