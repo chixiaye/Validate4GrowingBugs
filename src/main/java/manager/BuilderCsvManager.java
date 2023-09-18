@@ -37,8 +37,8 @@ public class BuilderCsvManager {
             List<BugRecordDO> recordDOS = splitToBugRecordDOS(bugProjectDO);
             bugRecordDOS.addAll(recordDOS);
         }
-        log.info("bugRecordDOS size={}",bugRecordDOS.size());
-        ProjectIoUtil.convertToCSV(bugRecordDOS,"./test.csv");
+        log.info("bugRecordDOS size={}", bugRecordDOS.size());
+        ProjectIoUtil.convertToCSV(bugRecordDOS, "./test.csv");
     }
 
     private synchronized static List<BugRecordDO> splitToBugRecordDOS(BugProjectDO bugProjectDO) {
@@ -59,7 +59,7 @@ public class BuilderCsvManager {
         // 根据项目id拿到active_bugs.csv中
 
         for (Integer num : numberList) {
-            String command = DEFECTS4J_PATH + "framework/projects/"+"Johnzon_jsonb";
+            String command = DEFECTS4J_PATH + "framework/projects/" + projectId;
             BugRecordDO builder = BugRecordDO.builder().id(commonId++).projectId(projectId)
                     .projectName(projectName).subProjectLocator(locator).bugId(num).build();
             bugRecordDOS.add(builder);
