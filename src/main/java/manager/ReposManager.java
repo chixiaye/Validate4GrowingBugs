@@ -9,6 +9,8 @@ import util.AllBugsIoUtil;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 删除冗余文件/文件夹/文件内容
@@ -23,13 +25,22 @@ public class ReposManager {
     private static String PROJECTS_PATH = Config.getDefects4jPath() + "/framework/projects/";
 
     private static Set<String> projectSet = Sets.newHashSet();
-    ;
 
     public static void execute() {
         List<BugRecordDO> bugRecordDOS = AllBugsIoUtil.readAllBugs();
         bugRecordDOS.stream().distinct().forEach(bugRecordDO -> projectSet.add(bugRecordDO.getProjectId()));
-        deleteWithProjectView();
-        deleteWithBugView(bugRecordDOS);
+        List<File> needDeletedList = Lists.newArrayList();
+        deleteWithProjectView(bugRecordDOS,needDeletedList);
+        deleteWithBugView(bugRecordDOS,needDeletedList);
+    }
+
+    /**
+     * 记录维度的删除
+     */
+    private static void deleteWithRecordView(List<BugRecordDO> bugRecordDOS,List<File> needDeletedFiles) {
+        if (bugRecordDOS == null) {
+            return;
+        }
     }
 
     /**
@@ -37,13 +48,16 @@ public class ReposManager {
      *
      * @param bugRecordDOS
      */
-    private static void deleteWithBugView(List<BugRecordDO> bugRecordDOS) {
+    private static void deleteWithBugView(List<BugRecordDO> bugRecordDOS,List<File> needDeletedFiles) {
         if (bugRecordDOS == null) {
             return;
         }
         Set<String> commitSet = Sets.newHashSet();
         Map<String, List<Integer>> projectBugMap = new HashMap<>(8);
         bugRecordDOS.forEach(bugRecordDO -> {
+            if(bugRecordDO.getExt().equals(1)){
+               return;
+            }
             commitSet.add(bugRecordDO.getBuggyVersion());
             commitSet.add(bugRecordDO.getFixedVersion());
             if (projectBugMap.containsKey(bugRecordDO.getProjectId())) {
@@ -55,7 +69,6 @@ public class ReposManager {
             }
         });
         // 统一记录到一个list里面，统一删除
-        List<File> needDeletedFiles = Lists.newArrayList();
         for (String p : projectSet) {
             String prefix = PROJECTS_PATH + "/" + p + "/";
             handleBuildFiles(commitSet, prefix, needDeletedFiles);
@@ -69,6 +82,7 @@ public class ReposManager {
         }
         needDeletedFiles.forEach(file -> {
             log.warn("need to delete file: {}", file.getAbsolutePath());
+            file.deleteOnExit();
         });
     }
 
@@ -143,16 +157,34 @@ public class ReposManager {
     /**
      * 项目维度删除
      */
-    private static void deleteWithProjectView() {
+    private static void deleteWithProjectView(List<BugRecordDO> bugRecordDOS, List<File> list) {
+
+        // 根据保留字段检测是否可以直接删除整个项目
+        HashSet<String> needDeletedSet= Sets.newHashSet();
+        Map<String, List<BugRecordDO>> map = bugRecordDOS.stream().collect(Collectors.groupingBy(BugRecordDO::getProjectId));
+        for(Map.Entry<String, List<BugRecordDO>> e:map.entrySet()){
+            boolean flag=true;
+            for(BugRecordDO bugRecordDO : e.getValue()){
+                if(!bugRecordDO.getExt().equals(1)){
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag){
+                needDeletedSet.add(e.getKey());
+            }
+        }
+
         // framework/core/Project/ 底下的删除检测pm文本
         List<File> allPmFilesFromDict = getAllPmFilesFromDict(CORE_PATH);
         Iterator<File> iterator = allPmFilesFromDict.iterator();
         while (iterator.hasNext()) {
             File file = iterator.next();
             String name = file.getName().replace(".pm", "");
-            if (!projectSet.contains(name)) {
+            if (!projectSet.contains(name)||needDeletedSet.contains(name)) {
                 log.info("delete file: {}", name);
                 iterator.remove();
+                list.add(file);
             }
         }
         // framework/projects/ 底下的删除检测
@@ -161,9 +193,10 @@ public class ReposManager {
         while (it.hasNext()) {
             File file = it.next();
             String name = file.getName();
-            if (!projectSet.contains(name)) {
+            if (!projectSet.contains(name)||needDeletedSet.contains(name)) {
                 log.info("delete folder: {}", name);
                 it.remove();
+                list.add(file);
             }
         }
     }

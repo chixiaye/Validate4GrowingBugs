@@ -418,7 +418,7 @@ id,projectId,projectName,subProjectLocator,bugId,buggyVersion,fixedVersion,repor
 417,Gson,gson,gson,4,41e48f7aa3a686778e95328693b830856538e9e3,9a2421997e83ec803c88ea370a2d102052699d3b,1069,https://github.com/google/gson/pull/1069,0,0
 418,Gson,gson,gson,5,0aaef0fd1bb1b9729543dc40168adfb829eb75a4,ada597e69a78b8b99f79f79493cbf51e16045202,1093,https://github.com/google/gson/pull/1093,0,0
 419,Gson,gson,gson,6,f0aa1118e9ef66ed324f9a63cdfb551cb4e9eca5,7a9fd5962dce7f277efa15fcc996606be0733bac,1100,https://github.com/google/gson/pull/1100,0,0
-420,Gson,gson,gson,7,08bbb226f11a1f7f76835f953e700d905e1fab4d,b1fb9ca9a1bea5440bc6a5b506ccf67236b08243,1107,https://github.com/google/gson/issues/1107,0,1
+420,Gson,gson,gson,7,08bbb226f11a1f7f76835f953e700d905e1fab4d,b1fb9ca9a1bea5440bc6a5b506ccf67236b08243,1107,https://github.com/google/gson/issues/1107,0,0
 421,Gson,gson,gson,8,d6c8c1e3cf6749258e3f98d2bc03c973385e31a7,f2591b666419e06017b2327f7729440c122bf675,unknown,unknown,0,0
 422,Gson,gson,gson,9,4c2980e6ff798f3209f00292ead5060c402d9774,c7cb503cdb093cf7bb78afdfe125dd2255f029ad,unknown,unknown,0,0
 423,Gson,gson,gson,10,d5ed0716db573e5785e55d140ade5ab9a3062410,296d843afd575a75d7959474aad76ac05afa0706,unknown,unknown,0,0
@@ -434,7 +434,7 @@ id,projectId,projectName,subProjectLocator,bugId,buggyVersion,fixedVersion,repor
 433,Gson,gson,gson,20,6f6af8050799bec5321d2c06cd3230daadbb6535,0f66f4fac441f7d7d7bc4afc907454f3fe4c0faa,829,https://github.com/google/gson/pull/829,0,0
 434,Gson,gson,gson,21,5f63fcec98881e16ff950e9d981ce86a2563fb51,c24af304077e4a6d1925db7cd35d0cd1ed488d6a,871,https://github.com/google/gson/pull/871,0,0
 435,Gson,gson,gson,22,c24af304077e4a6d1925db7cd35d0cd1ed488d6a,b2c00a3b02eec48ed621fa7cfec54ac6da4aa48d,873,https://github.com/google/gson/pull/873,0,0
-436,Gson,gson,gson,23,5848096f3e1f36c038f522a3d7d6b9e3b553cf8e,a300148003e3a067875b1444e8268b6e0f0e0e02,1075,https://github.com/google/gson/pull/1075,0,1
+436,Gson,gson,gson,23,5848096f3e1f36c038f522a3d7d6b9e3b553cf8e,a300148003e3a067875b1444e8268b6e0f0e0e02,1075,https://github.com/google/gson/pull/1075,0,0
 437,Gson,gson,gson,24,bc1e5c5c991fe6d06a5a0f6b775684ac91d289d3,338758a0d3b30d47a31571e2315c3f2b34e9e894,unknown,unknown,0,0
 438,Gson,gson,gson,25,a595032a902c0758610a1cb38379b5e91a01adbd,3d1f7251c1285148481a2cde6d2a8e9bbcaae158,unknown,unknown,0,0
 439,Hivemall_core,core,core,1,bcae1534a2894d98746210ed20985c115a99678e,50867c178784bee74bbb0abcc8209266e7665764,HIVEMALL-72,https://issues.apache.org/jira/browse/HIVEMALL-72,0,0

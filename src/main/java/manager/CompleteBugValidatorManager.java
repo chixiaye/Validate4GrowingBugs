@@ -22,14 +22,18 @@ public class CompleteBugValidatorManager {
         for (int i = 0; i < bugRecordDOS.size(); i++) {
             BugRecordDO bugRecordDO = bugRecordDOS.get(i);
             String projectPath = DEFECTS_4J_PATH + "framework/projects/" + bugRecordDO.getProjectId();
-            isExistFile(bugRecordDO, projectPath + "/patches/", ".src.patch");
+            boolean exist= isExistFile(bugRecordDO, projectPath + "/patches/", ".src.patch");
 //            isExistFile(projectPath, "/patches/" + bugRecordDO.getBugId() + ".test.patch");
-            isExistFile(bugRecordDO, projectPath + "/trigger_tests/", "");
-            isExistFile(bugRecordDO, projectPath + "/loaded_classes/", ".src");
-            isExistFile(bugRecordDO, projectPath + "/loaded_classes/", ".test");
-            isExistFile(bugRecordDO, projectPath + "/modified_classes/", ".src");
-            isExistFile(bugRecordDO, projectPath + "/relevant_tests/", "");
+            exist&= isExistFile(bugRecordDO, projectPath + "/trigger_tests/", "");
+            exist&=isExistFile(bugRecordDO, projectPath + "/loaded_classes/", ".src");
+            exist&=isExistFile(bugRecordDO, projectPath + "/loaded_classes/", ".test");
+            exist&=isExistFile(bugRecordDO, projectPath + "/modified_classes/", ".src");
+            exist&=isExistFile(bugRecordDO, projectPath + "/relevant_tests/", "");
+            if(!exist){
+                bugRecordDO.setExt(1);
+            }
         }
+        AllBugsIoUtil.rewriteAllBugs(bugRecordDOS);
     }
 
     private static boolean isExistFile(BugRecordDO bugRecordDO, String prefix, String extension) {

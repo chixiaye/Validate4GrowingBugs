@@ -28,12 +28,17 @@ public class DuplicateBugManager {
             for (int j = i + 1; j < bugRecordDOS.size(); j++) {
                 BugRecordDO bugRecordDO1 = bugRecordDOS.get(i);
                 BugRecordDO bugRecordDO2 = bugRecordDOS.get(j);
+                if(bugRecordDO2.getExt().equals(1)){
+                    continue;
+                }
                 if (isDuplicateBug(bugRecordDO1, bugRecordDO2)) {
                     log.info("project1={}, id1={} # project2={}, id2={} is Duplicate", bugRecordDO1.getProjectName(),
                             bugRecordDO1.getBugId(), bugRecordDO2.getProjectName(), bugRecordDO2.getBugId());
+                    bugRecordDO2.setExt(1);
                 }
             }
         }
+        AllBugsIoUtil.rewriteAllBugs(bugRecordDOS);
     }
 
     public static boolean isDuplicateBug(BugRecordDO bugRecordDO1, BugRecordDO bugRecordDO2) {
